@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>硯硯的學習資料</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+            line-height: 1.8;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            font-size: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: #000;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: none;
+            color: #000;
+        }
+
+        .header p {
+            font-size: 1.6rem;
+            opacity: 0.8;
+            color: #000;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .subject-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        .subject-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #000;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #daa520;
+        }
+
+        .folders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .folder {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #000;
+            padding: 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .folder:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.4);
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+        }
+
+        .folder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .folder:hover::before {
+            left: 100%;
+        }
+
+        .folder-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .folder-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .upload-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .upload-title {
+            font-size: 2rem;
+            color: #000;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .upload-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .method-card {
+            padding: 25px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .method-card:hover {
+            border-color: #daa520;
+            background: #fff8dc;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(218, 165, 32, 0.2);
+        }
+
+        .method-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 15px;
+        }
+
+        .method-description {
+            font-size: 1.2rem;
+            color: #000;
+            line-height: 1.6;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-link {
+            background: linear-gradient(135deg, #ff7675, #fd79a8);
+            color: #000;
+            padding: 15px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-shadow: none;
+        }
+
+        .quick-link:hover {
+            background: linear-gradient(135deg, #fab1a0, #e84393);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.4);
+        }
+
+        /* 手機優化 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            body {
+                font-size: 20px;
+            }
+
+            .header h1 {
+                font-size: 3rem;
+            }
+
+            .header p {
+                font-size: 1.4rem;
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .folders-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .folder {
+                padding: 25px;
+                min-height: 120px;
+            }
+
+            .folder-icon {
+                font-size: 3.5rem;
+            }
+
+            .folder-name {
+                font-size: 1.4rem;
+            }
+
+            .upload-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .subject-title {
+                font-size: 1.8rem;
+            }
+
+            .upload-title {
+                font-size: 1.8rem;
+            }
+
+            .method-title {
+                font-size: 1.5rem;
+            }
+
+            .method-description {
+                font-size: 1.3rem;
+            }
+
+            .quick-link {
+                font-size: 1.3rem;
+            }
+
+            .file-type {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* iPad 優化 */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 3.2rem;
+            }
+            
+            .folder-icon {
+                font-size: 3.2rem;
+            }
+            
+            .folder-name {
+                font-size: 1.25rem;
+            }
+
+            .method-title {
+                font-size: 1.5rem;
+            }
+
+            .method-description {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* 檔案類型圖標 */
+        .file-types {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .file-type {
+            background: rgba(218, 165, 32, 0.15);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            color: #000;
+            font-weight: 500;
+            border: 1px solid rgba(218, 165, 32, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 硯硯的學習資料</h1>
+            <p>英文 • 數學 • 物理 • 其他科目</p>
+        </header>
+
+        <main class="subjects-grid">
+            <div class="subject-card">
+                <h2 class="subject-title">📖 英文</h2>
+                <div class="folders-grid">
+                    <a href="#" class="folder" onclick="openFolder('english', 'materials')">
+                        <span class="folder-icon">📋</span>
+                        <span class="folder-name">教材</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('english', 'notes')">
+                        <span class="folder-icon">📝</span>
+                        <span class="folder-name">筆記</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('english', 'homework')">
+                        <span class="folder-icon">📄</span>
+                        <span class="folder-name">作業</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('english', 'submit')">
+                        <span class="folder-icon">📤</span>
+                        <span class="folder-name">作業繳交</span>
+                    </a>
+                </div>
+                <div class="file-types">
+                    <span class="file-type">PDF</span>
+                    <span class="file-type">JPG</span>
+                    <span class="file-type">MP3</span>
+                    <span class="file-type">MP4</span>
+                </div>
+            </div>
+
+            <div class="subject-card">
+                <h2 class="subject-title">🧮 數學</h2>
+                <div class="folders-grid">
+                    <a href="#" class="folder" onclick="openFolder('math', 'materials')">
+                        <span class="folder-icon">📋</span>
+                        <span class="folder-name">教材</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('math', 'notes')">
+                        <span class="folder-icon">📝</span>
+                        <span class="folder-name">筆記</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('math', 'homework')">
+                        <span class="folder-icon">📄</span>
+                        <span class="folder-name">作業</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('math', 'submit')">
+                        <span class="folder-icon">📤</span>
+                        <span class="folder-name">作業繳交</span>
+                    </a>
+                </div>
+                <div class="file-types">
+                    <span class="file-type">PDF</span>
+                    <span class="file-type">JPG</span>
+                    <span class="file-type">MP4</span>
+                </div>
+            </div>
+
+            <div class="subject-card">
+                <h2 class="subject-title">⚡ 物理</h2>
+                <div class="folders-grid">
+                    <a href="#" class="folder" onclick="openFolder('physics', 'materials')">
+                        <span class="folder-icon">📋</span>
+                        <span class="folder-name">教材</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('physics', 'notes')">
+                        <span class="folder-icon">📝</span>
+                        <span class="folder-name">筆記</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('physics', 'homework')">
+                        <span class="folder-icon">📄</span>
+                        <span class="folder-name">作業</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('physics', 'submit')">
+                        <span class="folder-icon">📤</span>
+                        <span class="folder-name">作業繳交</span>
+                    </a>
+                </div>
+                <div class="file-types">
+                    <span class="file-type">PDF</span>
+                    <span class="file-type">JPG</span>
+                    <span class="file-type">MP4</span>
+                </div>
+            </div>
+
+            <div class="subject-card">
+                <h2 class="subject-title">📚 其他</h2>
+                <div class="folders-grid">
+                    <a href="#" class="folder" onclick="openFolder('others', 'materials')">
+                        <span class="folder-icon">📋</span>
+                        <span class="folder-name">教材</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('others', 'notes')">
+                        <span class="folder-icon">📝</span>
+                        <span class="folder-name">筆記</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('others', 'homework')">
+                        <span class="folder-icon">📄</span>
+                        <span class="folder-name">作業</span>
+                    </a>
+                    <a href="#" class="folder" onclick="openFolder('others', 'submit')">
+                        <span class="folder-icon">📤</span>
+                        <span class="folder-name">作業繳交</span>
+                    </a>
+                </div>
+                <div class="file-types">
+                    <span class="file-type">PDF</span>
+                    <span class="file-type">JPG</span>
+                    <span class="file-type">連結</span>
+                </div>
+            </div>
+        </main>
+
+        <section class="upload-section">
+            <h2 class="upload-title">📤 檔案上傳方式</h2>
+            <div class="upload-methods">
+                <div class="method-card">
+                    <h3 class="method-title">老師上傳 (推薦)</h3>
+                    <p class="method-description">
+                        直接使用 Google Drive 網頁版或手機 App 上傳檔案到對應的資料夾。支援拖拉上傳、批次上傳，操作簡單快速。
+                    </p>
+                </div>
+                <div class="method-card">
+                    <h3 class="method-title">學生繳交作業</h3>
+                    <p class="method-description">
+                        用手機拍照後，透過 Google Drive App 直接上傳到「作業繳交」資料夾。可直接在 App 內拍照並命名檔案。
+                    </p>
+                </div>
+                <div class="method-card">
+                    <h3 class="method-title">共用連結方式</h3>
+                    <p class="method-description">
+                        提供 Google Drive 資料夾的共用連結，讓老師和學生都能直接存取和上傳檔案，無需額外權限設定。
+                    </p>
+                </div>
+            </div>
+            
+            <div class="quick-links">
+                <a href="#" class="quick-link" onclick="openUploadGuide()">📱 手機上傳教學</a>
+                <a href="#" class="quick-link" onclick="openDriveSettings()">⚙️ Drive 設定說明</a>
+                <a href="#" class="quick-link" onclick="openFileNaming()">📝 檔案命名規則</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Google Drive 資料夾 ID 設定 (需要替換成實際的資料夾 ID)
+        const driveConfig = {
+            english: {
+                materials: 'YOUR_ENGLISH_MATERIALS_FOLDER_ID',
+                notes: 'YOUR_ENGLISH_NOTES_FOLDER_ID', 
+                homework: 'YOUR_ENGLISH_HOMEWORK_FOLDER_ID',
+                submit: 'YOUR_ENGLISH_SUBMIT_FOLDER_ID'
+            },
+            math: {
+                materials: 'YOUR_MATH_MATERIALS_FOLDER_ID',
+                notes: 'YOUR_MATH_NOTES_FOLDER_ID',
+                homework: 'YOUR_MATH_HOMEWORK_FOLDER_ID', 
+                submit: 'YOUR_MATH_SUBMIT_FOLDER_ID'
+            },
+            physics: {
+                materials: 'YOUR_PHYSICS_MATERIALS_FOLDER_ID',
+                notes: 'YOUR_PHYSICS_NOTES_FOLDER_ID',
+                homework: 'YOUR_PHYSICS_HOMEWORK_FOLDER_ID',
+                submit: 'YOUR_PHYSICS_SUBMIT_FOLDER_ID'
+            },
+            others: {
+                materials: 'YOUR_OTHERS_MATERIALS_FOLDER_ID',
+                notes: 'YOUR_OTHERS_NOTES_FOLDER_ID',
+                homework: 'YOUR_OTHERS_HOMEWORK_FOLDER_ID',
+                submit: 'YOUR_OTHERS_SUBMIT_FOLDER_ID'
+            }
+        };
+
+        function openFolder(subject, folderType) {
+            const folderId = driveConfig[subject][folderType];
+            
+            // 如果還沒設定資料夾 ID，顯示設定提示
+            if (folderId.includes('YOUR_')) {
+                alert('請先設定 Google Drive 資料夾 ID\n\n設定步驟：\n1. 在 Google Drive 建立對應資料夾\n2. 取得資料夾的分享連結\n3. 將連結中的 ID 替換到程式碼中');
+                return;
+            }
+            
+            // 開啟 Google Drive 資料夾
+            const driveUrl = `https://drive.google.com/drive/folders/${folderId}`;
+            window.open(driveUrl, '_blank');
+        }
+
+        function openUploadGuide() {
+            const guide = `
+📱 手機上傳教學
+
+老師上傳檔案：
+1. 開啟 Google Drive App
+2. 點擊「+」新增按鈕
+3. 選擇「上傳」
+4. 選擇要上傳的檔案
+5. 選擇對應的資料夾
+
+學生繳交作業：
+1. 開啟 Google Drive App
+2. 進入「作業繳交」資料夾
+3. 點擊「+」→「掃描」
+4. 拍攝作業照片
+5. 調整後儲存上傳
+
+💡 建議檔案命名：
+日期_科目_類型_姓名.檔案格式
+例如：20231215_數學_作業_硯硯.jpg
+            `;
+            
+            alert(guide);
+        }
+
+        function openDriveSettings() {
+            const settings = `
+⚙️ Google Drive 設定說明
+
+資料夾權限設定：
+1. 開啟 Google Drive 
+2. 右鍵點擊資料夾 → 「分享」
+3. 設定為「知道連結的使用者」
+4. 權限設為「編輯者」
+5. 複製連結並取得資料夾 ID
+
+檔案自動同步：
+• 安裝 Google Drive App
+• 登入同一個 Google 帳號
+• 開啟自動備份功能
+
+容量管理：
+• 免費 15GB 容量
+• 定期清理不需要的檔案
+• 可升級為付費版本
+            `;
+            
+            alert(settings);
+        }
+
+        function openFileNaming() {
+            const naming = `
+📝 檔案命名規則建議
+
+格式：日期_科目_類型_姓名.副檔名
+
+教材檔案：
+20231215_英文_單字表_老師.pdf
+20231215_數學_公式_老師.jpg
+
+學生作業：
+20231215_物理_作業1_硯硯.jpg  
+20231215_英文_作業2_硯硯.pdf
+
+筆記檔案：
+20231215_數學_筆記_第3章.pdf
+20231215_物理_重點整理.mp4
+
+💡 注意事項：
+• 不要使用特殊符號 ( ) [ ] & % 等
+• 中文檔名在某些系統可能有問題
+• 日期格式：YYYYMMDD (西元年月日)
+            `;
+            
+            alert(naming);
+        }
+
+        // 觸控優化
+        document.addEventListener('touchstart', function() {}, true);
+        
+        // 防止雙擊縮放 (iOS Safari)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            let now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
